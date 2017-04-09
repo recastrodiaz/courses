@@ -6,7 +6,18 @@ import numpy as np
 import torch
 
 def open_image(path):
-    return Image.open(path).convert('RGB').resize((224, 224), Image.BILINEAR)
+    img = Image.open(path).convert('RGB')
+    # Center crop 
+    width = img.size[0]
+    height = img.size[1]
+    return img.crop(
+        (
+            (width  - 224) / 2,
+            (height - 224) / 2,
+            (width  + 224) / 2,
+            (height + 224) / 2
+        )
+    )
 
 def get_dataframe_row_by_id(df, id, test_mode):
     if test_mode:
